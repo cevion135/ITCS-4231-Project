@@ -22,6 +22,7 @@ public class CarMovement : MonoBehaviour
     {
         carForwardVector = transform.forward;
         rotatedVector = carForwardVector;
+        Debug.Log("Transform Forward: " + transform.forward);
         // foreach(Transform wheel in wheels){
         //     Debug.Log(wheel.position.x);
         // }
@@ -67,19 +68,38 @@ public class CarMovement : MonoBehaviour
         foreach(Transform wheel in wheels){
             wheel.Rotate(0f, angularSpeed, Time.deltaTime * 360);
         }
-
         Debug.Log(angularSpeed);
     }
+
     void handleTurning() {
+        // if(Input.GetKey(KeyCode.A)){
+        //     rotatedVector = Quaternion.Euler(0,-.1f, 0) * rotatedVector;
+        //     rotatedVector = carForwardVector += rotatedVector;
+
+        // }
+        // if(Input.GetKey(KeyCode.D)){
+        //     rotatedVector = Quaternion.Euler(0, .1f, 0) * rotatedVector;
+        //     rotatedVector = carForwardVector += rotatedVector;
+        // }
+        // Debug.Log("Vector Angle X: " + rotatedVector.x + " Vector Angle Y: " + rotatedVector.y + "Vector Angle Z: " + rotatedVector.z);
+        
+
         if(Input.GetKey(KeyCode.A)){
-            rotatedVector = Quaternion.Euler(0,-.1f,0) * carForwardVector;
-            rotatedVector = carForwardVector += rotatedVector;
+           Quaternion rotation = Quaternion.AngleAxis(-1f, Vector3.up);
+           rotatedVector = rotation * rotatedVector;
+           rotatedVector.Normalize();
+           
+    
         }
         if(Input.GetKey(KeyCode.D)){
-             rotatedVector = Quaternion.Euler(0,.1f,0) * carForwardVector;
-            rotatedVector = carForwardVector += rotatedVector;
+            Quaternion rotation = Quaternion.AngleAxis(1f, Vector3.up);
+           rotatedVector = rotation * rotatedVector;
+           rotatedVector.Normalize();
         }
-        Debug.Log("Vector Angle: " + rotatedVector.x);
-    Debug.DrawRay(transform.position, rotatedVector * 10, Color.blue);
+        // Vector3 eulerRotation = rotatedVector.eulerAngles;
+        // Debug.Log("Euler Rotation: " + eulerRotation);
+        Debug.Log("Vector Angle X: " + rotatedVector.x + " Vector Angle Y: " + rotatedVector.y + "Vector Angle Z: " + rotatedVector.z);
+    
+        Debug.DrawRay(transform.position, rotatedVector * 10, Color.blue);
     }
 }
