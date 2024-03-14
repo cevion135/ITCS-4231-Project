@@ -37,7 +37,7 @@ public class CarMovement : MonoBehaviour
     {
         captureCurrentSpeed();
         accelAndDecel();
-        handleTurning();
+        // handleTurning();
         // rotateWheels();
         // Debug.Log("Acceleration:" + acceleration);
     }
@@ -46,11 +46,15 @@ public class CarMovement : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(0.0f, 0.0f, moveVertical).normalized;
-        // Debug.Log("movement:" + movement);
+        Debug.Log("Vertical Movement: " + moveVertical + "Horizontal Movement: " + moveHorizontal);
+        
 
         acceleration = movement * maxSpeed * 1f;
 
         rb.AddForce(acceleration * Time.deltaTime);
+        rb.AddRelativeTorque(transform.up * moveHorizontal * 2000f);
+        
+        Debug.Log("Current rb Velocity: " + rb.velocity + "Current Torque: " + rb.GetAccumulatedTorque());
     }
     void captureCurrentSpeed(){
         Vector3 currentPosition = transform.position;
@@ -98,7 +102,7 @@ public class CarMovement : MonoBehaviour
         }
         // Vector3 eulerRotation = rotatedVector.eulerAngles;
         // Debug.Log("Euler Rotation: " + eulerRotation);
-        Debug.Log("Vector Angle X: " + rotatedVector.x + " Vector Angle Y: " + rotatedVector.y + "Vector Angle Z: " + rotatedVector.z);
+        // Debug.Log("Vector Angle X: " + rotatedVector.x + " Vector Angle Y: " + rotatedVector.y + "Vector Angle Z: " + rotatedVector.z);
     
         Debug.DrawRay(transform.position, rotatedVector * 10, Color.blue);
     }
