@@ -5,6 +5,11 @@ using System;
 
 public class CarController : MonoBehaviour
 {
+    [Header("Inspector Assigned Car Parts")]
+    [SerializeField] public List<Wheel> wheels;
+    [SerializeField] private Rigidbody rb;
+
+    [Header("Car Physics Variables")]
     [SerializeField] private float maxAccel = 30f;
     [SerializeField] private float brakeAccel = 50f;
     [SerializeField] private float maxTurnAngle = 30f;
@@ -13,10 +18,18 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool burnoutPossible = false;
     private Vector3 _centerOfMass;
     
-    public List<Wheel> wheels;
-    public float moveInput;
-    public float steeringInput;
-    [SerializeField] private Rigidbody rb;
+
+
+    [Header("User Input Variables")]
+    [SerializeField] public float moveInput;
+    [SerializeField] public float steeringInput;
+
+    [Header("Various Booleans")]
+    [SerializeField] private bool isBurnout = false;
+    [SerializeField] private bool isBraking = false;
+    [SerializeField] private bool isBoosting = false;
+    [SerializeField] private bool headlights = false;
+    // [Header("VFX")]
 
    public enum Axels {
     Front,
@@ -27,6 +40,7 @@ public class CarController : MonoBehaviour
   public struct Wheel {
     public GameObject wheelMesh;
     public WheelCollider wheelCollider;
+    public GameObject wheelFXObj;
     public Axels axel;
   }
    void Start(){
@@ -43,6 +57,7 @@ public class CarController : MonoBehaviour
         move();
         steering();
         braking();
+        wheelSkidEffect();
     }
    private void getInput(){
     moveInput = Input.GetAxis("Vertical");
@@ -68,11 +83,20 @@ public class CarController : MonoBehaviour
    private void braking(){
     //adds brake force when left control is pressed.
         if(Input.GetKey(KeyCode.LeftControl)) {
+
+            //sets trigger booleans accordingly to queue VFX.
+           isBraking = true;
+
            foreach(var wheel in wheels){
                 wheel.wheelCollider.brakeTorque = 300f * brakeAccel * Time.deltaTime;
-           } 
+           }
         }
+        //removes brake force.
         else{
+
+            //sets trigger booleans accordingly to queue VFX.
+            isBraking = false;
+
             foreach(var wheel in wheels){
                 wheel.wheelCollider.brakeTorque = 0f;
             }
@@ -82,6 +106,9 @@ public class CarController : MonoBehaviour
     print("burnouts can be done.");
     //rotates back wheels for burnout effect
         if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W)) {
+
+            isBurnout = true;
+
             print("BURNOUT HAPPENING");
             foreach(var wheel in wheels){
                 if(wheel.axel == Axels.Rear){
@@ -90,11 +117,12 @@ public class CarController : MonoBehaviour
                     
                 }
             }
-        // else{
-        //     wheel.wheelCollider.brakeTorque = 0f;
-        // }
+        }
+        else{
+            isBurnout = false;
+        }
     }
-   }
+   
    private void wheelRotation(){
 
         foreach(var wheel in wheels) {
@@ -107,7 +135,7 @@ public class CarController : MonoBehaviour
                     Vector3 position;
                     Quaternion rot;
                     wheel.wheelCollider.GetWorldPose(out position, out rot);
-                    Quaternion _rotation = Quaternion.Euler(100000f*burnoutRotSpeed * Time.deltaTime, 0f, 0f);
+                    Quaternion _rotation = Quaternion.Euler(100000f * burnoutRotSpeed * Time.deltaTime, 0f, 0f);
                     print(_rotation);
                     wheel.wheelMesh.transform.rotation *= _rotation; 
                     wheel.wheelMesh.transform.position = position;  
@@ -129,4 +157,14 @@ public class CarController : MonoBehaviour
             }
         }
    }
+   private void wheelSkidEffect(){
+    foreach(var wheel in wheels){
+        if(isBraking || isBurnout) {
+            wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = true;
+        }
+        else{
+            wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = false;
+        }
+    }
+}
 }
