@@ -15,8 +15,10 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxTurnAngle = 30f;
     [SerializeField] private float turnSensitivity = 1f;
     [SerializeField] private float burnoutRotSpeed = 100000f;
+    [SerializeField] private float slideThreshold = 2f;
     [SerializeField] private bool burnoutPossible = false;
     private Vector3 _centerOfMass;
+    private Vector3 lateralVelocity;
     
 
 
@@ -26,11 +28,13 @@ public class CarController : MonoBehaviour
 
     [Header("Various Booleans")]
     [SerializeField] private bool isBurnout = false;
+    [SerializeField] private bool isSliding = false;
     [SerializeField] private bool isBraking = false;
     [SerializeField] private bool isBoosting = false;
     [SerializeField] private bool headlights = false;
-    // [Header("VFX")]
-
+    [Header("Misc")]
+    [SerializeField] private LayerMask groundLayer;
+    public float groundRayLength = .5f;
    public enum Axels {
     Front,
     Rear
@@ -50,9 +54,10 @@ public class CarController : MonoBehaviour
     private void Update(){
         getInput();
         wheelRotation();
+        calcLatVelocity();
 
         //Speed Check
-        print(rb.velocity.magnitude);
+        // print(rb.velocity.magnitude);
     }
     private void LateUpdate(){
         move();
@@ -139,7 +144,9 @@ public class CarController : MonoBehaviour
                     Quaternion _rotation = Quaternion.Euler(100000f * burnoutRotSpeed * Time.deltaTime, 0f, 0f);
                     print(_rotation);
                     wheel.wheelMesh.transform.rotation *= _rotation; 
-                    wheel.wheelMesh.transform.position = position;  
+                    wheel.wheelMesh.transform.position = position;
+
+                    wheel.FX_TireSmoke.Emit(1); 
                 }
                 if(wheel.axel == Axels.Front) {
                     Quaternion rotation;
@@ -148,6 +155,7 @@ public class CarController : MonoBehaviour
                     wheel.wheelMesh.transform.position = position;
                     wheel.wheelMesh.transform.rotation = rotation;
                 }
+
                 isBurnout = true;
             }
             else{
@@ -162,28 +170,49 @@ public class CarController : MonoBehaviour
    }
    private void wheelVFX(){
     foreach(var wheel in wheels){
-        if(isBraking && rb.velocity.magnitude >= 10f && wheel.axel == Axels.Rear) {
+        if((isBraking && rb.velocity.magnitude >= 10f && wheel.axel == Axels.Rear && isGrounded())||(isSliding && wheel.axel == Axels.Rear && isGrounded())) {
             wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = true;
             wheel.FX_TireSmoke.Emit(1);
         }
         else{
             wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = false;
         }
-        // while(isBurnout && wheel.axel == Axels.Rear){
-        //     print("Burnout effect triggered");
-        //   wheel.FX_TireSmoke.Emit(1);
-        //   StartCoroutine(particleEffectReplicator());  
-        // }
+
     }
 }
-    private IEnumerator particleEffectReplicator(){
-        yield return new WaitForSeconds(5);
+    //function that determines whether the car is sliding. If so, a boolean is triggered so that particle effects can be applied.
+    private void calcLatVelocity(){
+        // print("Calculating Lateral Velocity");
+        Vector3 right = transform.right;
+        Vector3 latVel = Vector3.Project(rb.velocity, right);
+
+        if(latVel.magnitude > slideThreshold){
+            isSliding = true;
+            // print("Sliding Active");
+        }
+        else{
+            isSliding = false;
+            // print("Sliding not active");
+        }
     }
-    // private void wheelSmokeEffect(){
-    //     foreach(var wheel in wheels) {
-    //         if((isBraking || isBurnout) && rb.velocity.magnitude >= 10f) {
-    //             wheel.FX_TireSmoke.Emit(1);
-    //         }
-    //     }
-    // }
+
+    //raycast to check if the cars wheels are on the ground.
+    private bool isGrounded(){
+        Vector3 rayOrigin = transform.position;
+        RaycastHit hit;
+
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, groundRayLength, groundLayer))
+        {
+            print("Car is grounded");
+            return true;
+        }
+        print("Car is !NOT! on the ground");
+        return false;
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Vector3 rayOrigin = transform.position;
+        Gizmos.DrawRay(rayOrigin, Vector3.down * groundRayLength);
+    }
 }
