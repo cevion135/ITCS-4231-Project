@@ -41,6 +41,7 @@ public class CarController : MonoBehaviour
     public GameObject wheelMesh;
     public WheelCollider wheelCollider;
     public GameObject wheelFXObj;
+    public ParticleSystem FX_TireSmoke;
     public Axels axel;
   }
    void Start(){
@@ -57,7 +58,7 @@ public class CarController : MonoBehaviour
         move();
         steering();
         braking();
-        wheelSkidEffect();
+        wheelVFX();
     }
    private void getInput(){
     moveInput = Input.GetAxis("Vertical");
@@ -147,6 +148,7 @@ public class CarController : MonoBehaviour
                     wheel.wheelMesh.transform.position = position;
                     wheel.wheelMesh.transform.rotation = rotation;
                 }
+                isBurnout = true;
             }
             else{
                 Quaternion rotation;
@@ -154,17 +156,34 @@ public class CarController : MonoBehaviour
                 wheel.wheelCollider.GetWorldPose(out position, out rotation);
                 wheel.wheelMesh.transform.position = position;
                 wheel.wheelMesh.transform.rotation = rotation;
+                isBurnout = false;
             }
         }
    }
-   private void wheelSkidEffect(){
+   private void wheelVFX(){
     foreach(var wheel in wheels){
-        if(isBraking || isBurnout) {
+        if(isBraking && rb.velocity.magnitude >= 10f && wheel.axel == Axels.Rear) {
             wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = true;
+            wheel.FX_TireSmoke.Emit(1);
         }
         else{
             wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = false;
         }
+        // while(isBurnout && wheel.axel == Axels.Rear){
+        //     print("Burnout effect triggered");
+        //   wheel.FX_TireSmoke.Emit(1);
+        //   StartCoroutine(particleEffectReplicator());  
+        // }
     }
 }
+    private IEnumerator particleEffectReplicator(){
+        yield return new WaitForSeconds(5);
+    }
+    // private void wheelSmokeEffect(){
+    //     foreach(var wheel in wheels) {
+    //         if((isBraking || isBurnout) && rb.velocity.magnitude >= 10f) {
+    //             wheel.FX_TireSmoke.Emit(1);
+    //         }
+    //     }
+    // }
 }

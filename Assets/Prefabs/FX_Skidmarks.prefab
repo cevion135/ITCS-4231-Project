@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6522465018002145567}
   - component: {fileID: 1018415478977300406}
   m_Layer: 0
-  m_Name: Skidmarks_FX
+  m_Name: FX_Skidmarks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
