@@ -69,7 +69,7 @@ public class CarController : MonoBehaviour
         steering();
         braking();
         wheelVFX();
-        if(Input.GetKey(KeyCode.LeftAlt)){
+        if(Input.GetKey(KeyCode.LeftShift)){
             initiateBoost();
         }
     }
@@ -123,7 +123,7 @@ public class CarController : MonoBehaviour
 
             isBurnout = true;
 
-            print("BURNOUT HAPPENING");
+            // print("BURNOUT HAPPENING");
             foreach(var wheel in wheels){
                 if(wheel.axel == Axels.Rear){
                     Quaternion _rotation = Quaternion.Euler(0f, burnoutRotSpeed * Time.deltaTime, 0f);
