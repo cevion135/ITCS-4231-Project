@@ -31,7 +31,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool isSliding = false;
     [SerializeField] private bool isBraking = false;
     [SerializeField] private bool isBoosting = false;
-    [SerializeField] private bool headlights = false;
     [Header("Misc")]
     [SerializeField] private LayerMask groundLayer;
     public float groundRayLength = .5f;
@@ -142,7 +141,7 @@ public class CarController : MonoBehaviour
                     Quaternion rot;
                     wheel.wheelCollider.GetWorldPose(out position, out rot);
                     Quaternion _rotation = Quaternion.Euler(100000f * burnoutRotSpeed * Time.deltaTime, 0f, 0f);
-                    print(_rotation);
+                    // print(_rotation);
                     wheel.wheelMesh.transform.rotation *= _rotation; 
                     wheel.wheelMesh.transform.position = position;
 
@@ -203,10 +202,10 @@ public class CarController : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, Vector3.down, out hit, groundRayLength, groundLayer))
         {
-            print("Car is grounded");
+            // print("Car is grounded");
             return true;
         }
-        print("Car is !NOT! on the ground");
+        // print("Car is !NOT! on the ground");
         return false;
     }
     void OnDrawGizmos()
