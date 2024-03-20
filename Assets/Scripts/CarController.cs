@@ -15,6 +15,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxTurnAngle = 30f;
     [SerializeField] private float turnSensitivity = 1f;
     [SerializeField] private float burnoutRotSpeed = 100000f;
+    [SerializeField] private float boostForce = 300f;
     [SerializeField] private float slideThreshold = 2f;
     [SerializeField] private bool burnoutPossible = false;
     private Vector3 _centerOfMass;
@@ -32,8 +33,13 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool isBraking = false;
     [SerializeField] private bool isBoosting = false;
     [Header("Misc")]
+
+    [SerializeField] private CameraController cameraClass;
     [SerializeField] private LayerMask groundLayer;
-    public float groundRayLength = .5f;
+    [SerializeField] private float groundRayLength = .5f;
+    [SerializeField] private ParticleSystem LeftExhaustBoost;
+    [SerializeField] private ParticleSystem RightExhaustBoost;
+
    public enum Axels {
     Front,
     Rear
@@ -63,6 +69,9 @@ public class CarController : MonoBehaviour
         steering();
         braking();
         wheelVFX();
+        if(Input.GetKey(KeyCode.LeftAlt)){
+            initiateBoost();
+        }
     }
    private void getInput(){
     moveInput = Input.GetAxis("Vertical");
@@ -207,6 +216,24 @@ public class CarController : MonoBehaviour
         }
         // print("Car is !NOT! on the ground");
         return false;
+    }
+    // public void changeBoostingStatus(){
+    //     isBoosting = !isBoosting;
+    // }
+    private void initiateBoost(){
+        isBoosting = !isBoosting;
+        LeftExhaustBoost.Play();
+        RightExhaustBoost.Play();
+        cameraClass.cameraShake();
+        StartCoroutine(ShakeCoroutine());
+        rb.AddForce(transform.forward * boostForce, ForceMode.Impulse);
+        //logic for boosting rigidBody forward.
+
+
+    }
+    IEnumerator ShakeCoroutine(){
+        yield return new WaitForSeconds(3);
+        isBoosting = !isBoosting;
     }
     void OnDrawGizmos()
     {
