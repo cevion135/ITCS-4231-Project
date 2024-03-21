@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
             //Method 2
             // Vector3 shakeOffset = originalPosition + Random.insideUnitSphere * shakeMagnitude;
             // transform.position = Vector3.Lerp(transform.position, shakeOffset, Time.deltaTime * 10f); // Adjust the lerp speed as needed
-            print(elapsedTime); 
+            // print(elapsedTime); 
 
             elapsedTime += (Time.deltaTime);
             yield return null;
