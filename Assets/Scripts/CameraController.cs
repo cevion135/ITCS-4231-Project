@@ -5,16 +5,21 @@ using UnityEngine.VFX;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private Transform carTransform;
     [SerializeField] private float timeMultiplyer;
     [SerializeField] private float shakeDuration = 3f;
+    [SerializeField] float cameraRotationSpeed = 5f;
+    private Quaternion initialRotationOffset;
     void Start()
     {
-       
+       initialRotationOffset = Quaternion.Inverse(carTransform.rotation) * transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Quaternion targetRotation = carTransform.rotation * initialRotationOffset;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, cameraRotationSpeed * Time.deltaTime);
     }
     public void cameraShake(){
         StartCoroutine(ShakeCoroutine());   

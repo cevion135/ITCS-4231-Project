@@ -178,7 +178,9 @@ public class CarController : MonoBehaviour
    }
    private void wheelVFX(){
     foreach(var wheel in wheels){
-        if((isBraking && rb.velocity.magnitude >= 10f && wheel.axel == Axels.Rear && isGrounded())||(isSliding && wheel.axel == Axels.Rear && isGrounded())) {
+        //if braking, moving, and grounded, emit particles from all wheels.
+        //if sliding and grounded... emit particles from rear wheels.
+        if((isBraking && rb.velocity.magnitude >= 10f && isGrounded())||(isSliding && wheel.axel == Axels.Rear && isGrounded())) {
             wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = true;
             wheel.FX_TireSmoke.Emit(1);
         }
