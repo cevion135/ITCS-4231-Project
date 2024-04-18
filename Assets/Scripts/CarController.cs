@@ -111,6 +111,7 @@ public class CarController : MonoBehaviour
     }
    }
    private void braking(){
+    
     //adds brake force when left control is pressed.
         if(Input.GetKey(KeyCode.LeftControl)) {
 
@@ -212,6 +213,8 @@ public class CarController : MonoBehaviour
         // print("Calculating Lateral Velocity");
         Vector3 right = transform.right;
         Vector3 latVel = Vector3.Project(rb.velocity, right);
+
+        Debug.Log("[" + gameObject + "] Lateral Velocity: " + latVel.magnitude);
 
         if(latVel.magnitude > slideThreshold){
             isSliding = true;
