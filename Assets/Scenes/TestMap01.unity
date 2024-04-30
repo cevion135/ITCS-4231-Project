@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6018,6 +6018,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1904922873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1280107116 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2260096498021451245, guid: bde4d71b410d9d741add0d5c88437ba6,
+    type: 3}
+  m_PrefabInstance: {fileID: 744736655}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1318386269 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1118272885277993169, guid: 5fe38f08f9bb9c142bb0d413fa4d5975,
@@ -8534,7 +8540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9636e22c9496d7149986fdeccb0ee595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carTransform: {fileID: 0}
+  carTransform: {fileID: 1280107116}
   timeMultiplyer: 0
   shakeDuration: 3
   cameraRotationSpeed: 5

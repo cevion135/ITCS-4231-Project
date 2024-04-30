@@ -32,7 +32,7 @@ public class CPU_Pathfinding : MonoBehaviour
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         currentWaypointIndex = 0;
-        // Time.timeScale = .5f;
+        Time.timeScale = .5f;
     }
 
     void Update()
