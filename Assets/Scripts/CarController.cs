@@ -10,12 +10,12 @@ public class CarController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
 
     [Header("Car Physics Variables")]
-    [SerializeField] private float maxAccel;
-    [SerializeField] private float brakeAccel;
+    [SerializeField] private float maxAccel = 30f;
+    [SerializeField] private float brakeAccel = 50f;
     [SerializeField] private float maxTurnAngle = 30f;
     [SerializeField] private float turnSensitivity = 1f;
     [SerializeField] private float burnoutRotSpeed = 100000f;
-    [SerializeField] private float boostForce = 600f;
+    [SerializeField] private float boostForce = 300f;
     [SerializeField] private float slideThreshold = 2f;
     [SerializeField] private bool burnoutPossible = false;
     private Vector3 _centerOfMass;
@@ -32,7 +32,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool isSliding = false;
     [SerializeField] private bool isBraking = false;
     [SerializeField] private bool isBoosting = false;
-    [SerializeField] private bool isNPC= false;
     [Header("Misc")]
 
     [SerializeField] private CameraController cameraClass;
@@ -56,18 +55,9 @@ public class CarController : MonoBehaviour
   }
    void Start(){
     rb.centerOfMass = _centerOfMass;
-    if (gameObject.tag == "Player") {
-        isNPC = false;
-    }
-    else {
-        isNPC = true;
-    }
-    // Debug.Log(gameObject);
    }
     private void Update(){
-        if(!isNPC){
-            getInput();
-        }
+        getInput();
         wheelRotation();
         calcLatVelocity();
 
@@ -78,26 +68,20 @@ public class CarController : MonoBehaviour
         move();
         steering();
         braking();
+        wheelVFX();
         if(Input.GetKey(KeyCode.LeftShift)){
             initiateBoost();
         }
-        wheelVFX();
     }
    private void getInput(){
-        moveInput = Input.GetAxis("Vertical");
-        steeringInput = Input.GetAxis("Horizontal");
-        // Debug.Log("[On Game Object: " + gameObject + "] Move Input: " + moveInput + " Steering Input: " + steeringInput);
-   }
+    moveInput = Input.GetAxis("Vertical");
+    steeringInput = Input.GetAxis("Horizontal");
     
-    public void setInput(float vert, float horiz){
-        moveInput = vert;
-        steeringInput = horiz;
-    }
+   }
    private void move(){
     //adds movement in form of motor torque to car based on 'moveInput' variable.
     foreach(var wheel in wheels){
         wheel.wheelCollider.motorTorque = moveInput * 600f * maxAccel * Time.deltaTime;
-        // Debug.Log("[On Game Object: " + gameObject + "] Wheel Collider Torque: " + wheel.wheelCollider.motorTorque);
     }
     burnoutPossible = rb.velocity.magnitude <= 1f ? true : false;
    }
@@ -111,7 +95,6 @@ public class CarController : MonoBehaviour
     }
    }
    private void braking(){
-    
     //adds brake force when left control is pressed.
         if(Input.GetKey(KeyCode.LeftControl)) {
 
@@ -133,7 +116,6 @@ public class CarController : MonoBehaviour
             }
         }
    }
-   
    private void burnout(){
     print("burnouts can be done.");
     //rotates back wheels for burnout effect
@@ -196,9 +178,7 @@ public class CarController : MonoBehaviour
    }
    private void wheelVFX(){
     foreach(var wheel in wheels){
-        //if braking, moving, and grounded, emit particles from all wheels.
-        //if sliding and grounded... emit particles from rear wheels.
-        if((isBraking && rb.velocity.magnitude >= 10f && isGrounded())||(isSliding && wheel.axel == Axels.Rear && isGrounded())) {
+        if((isBraking && rb.velocity.magnitude >= 10f && wheel.axel == Axels.Rear && isGrounded())||(isSliding && wheel.axel == Axels.Rear && isGrounded())) {
             wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = true;
             wheel.FX_TireSmoke.Emit(1);
         }
@@ -213,8 +193,6 @@ public class CarController : MonoBehaviour
         // print("Calculating Lateral Velocity");
         Vector3 right = transform.right;
         Vector3 latVel = Vector3.Project(rb.velocity, right);
-
-        Debug.Log("[" + gameObject + "] Lateral Velocity: " + latVel.magnitude);
 
         if(latVel.magnitude > slideThreshold){
             isSliding = true;
