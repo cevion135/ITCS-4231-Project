@@ -13,6 +13,7 @@ public class CPU_Pathfinding : MonoBehaviour
     [Header("Steering")]
     [SerializeField] private float steeringSpeed;
     [SerializeField] private float accelSpeed;
+    [SerializeField] private float dotProduct;
     [SerializeField] float NPC_Vert = 0f;
     [SerializeField] float NPC_Horiz = 0f;
 
@@ -32,7 +33,7 @@ public class CPU_Pathfinding : MonoBehaviour
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         currentWaypointIndex = 0;
-        Time.timeScale = .5f;
+        // Time.timeScale = .5f;
     }
 
     void Update()
@@ -59,6 +60,8 @@ public class CPU_Pathfinding : MonoBehaviour
         //creates 3 rays at 20 degreens from cars forward vector.
         for(int i = 0; i < rayCount; i++) {
             Vector3 direction = Quaternion.Euler(0, startAngle + i * rayAngle, 0) * transform.forward;
+
+            //NOTE: AND FACING FORWARD VIA DOT PRODUCT
             if(Physics.Raycast(transform.position, direction, out hit, raycastDistance)) {
                     obstruction = true;
                     if(i == 0) {
@@ -80,12 +83,12 @@ public class CPU_Pathfinding : MonoBehaviour
         }
 
 
-
+        //IMPORTANT: Make different Vertical movement behavior if statements for multiple scenarios
 
         //detects whether waypoint is in front of behind car.
         Vector3 moveDirection = (waypoints[currentWaypointIndex].position - transform.position).normalized;
         float distanceFromWaypoint = Vector3.Distance(waypoints[currentWaypointIndex].position, transform.position);
-        float dotProduct = Vector3.Dot(transform.forward, moveDirection);
+        dotProduct = Vector3.Dot(transform.forward, moveDirection);
         
         // Debug.Log("[Dot-Product]: " + dotProduct);
 
@@ -95,7 +98,6 @@ public class CPU_Pathfinding : MonoBehaviour
         }
         //else if (dotProduct < 0f).. create function to turn around.
         else{
-            NPC_Vert = Mathf.Lerp(NPC_Vert, -1f, Time.deltaTime * accelSpeed);
             moveBackwards();
         }
 
@@ -113,6 +115,8 @@ public class CPU_Pathfinding : MonoBehaviour
         else if(!obstruction) {
             NPC_Horiz = 0f;
         }
+
+        carController.cpu_braking(dotProduct);
 
         // Debug.Log(gameObject + " - Magnitude: " + rb.velocity.magnitude);
         // Debug.Log("NPC Move Input: " + NPC_Vert + " NPC Steering Input: " + NPC_Horiz);
