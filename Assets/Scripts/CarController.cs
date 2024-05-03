@@ -10,10 +10,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
 
     [Header("Car Physics Variables")]
-    [SerializeField] private float currentCarSpeed;
-    [SerializeField] private float autoBrakeThreshold = 20f;
-    [SerializeField] private float maxAccel;
-    [SerializeField] private float brakeAccel;
+    [SerializeField] private float maxAccel = 30f;
+    [SerializeField] private float brakeAccel = 50f;
     [SerializeField] private float maxTurnAngle = 30f;
     [SerializeField] private float turnSensitivity = 1f;
     [SerializeField] private float burnoutRotSpeed = 100000f;
@@ -21,8 +19,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float slideThreshold = 2f;
     [SerializeField] private bool burnoutPossible = false;
     private Vector3 _centerOfMass;
-    [SerializeField] private Vector3 latVelo;
-    [SerializeField] private float latVeloMag;
+    private Vector3 lateralVelocity;
     
 
 
@@ -33,7 +30,7 @@ public class CarController : MonoBehaviour
     [Header("Various Booleans")]
     [SerializeField] private bool isBurnout = false;
     [SerializeField] private bool isSliding = false;
-    [SerializeField] private bool isBraking;
+    [SerializeField] private bool isBraking = false;
     [SerializeField] private bool isBoosting = false;
     [Header("Misc")]
 
@@ -63,16 +60,15 @@ public class CarController : MonoBehaviour
         getInput();
         wheelRotation();
         calcLatVelocity();
-        getCarSpeed();
+
         //Speed Check
         // print(rb.velocity.magnitude);
     }
     private void LateUpdate(){
         move();
         steering();
-        if(!isNPC){
-            braking();
-        }
+        braking();
+        wheelVFX();
         if(Input.GetKey(KeyCode.LeftShift)){
             initiateBoost();
         }
@@ -120,54 +116,6 @@ public class CarController : MonoBehaviour
             }
         }
    }
-
-   public void cpu_braking(float dotProduct){
-        Debug.Log("Wheel Collider Brake Torque: " + wheels[0].wheelCollider.brakeTorque);
-        Debug.Log("Current Lateral Velocity: [" + latVeloMag + "]." );
-
-
-        // //check to make sure brakes don't apply at low speeds.
-        // if(currentCarSpeed >= autoBrakeThreshold) {
-            //if the next waypoints angle is slightly off, do a light brake.
-            if((currentCarSpeed >= autoBrakeThreshold) && (dotProduct <= .9f && dotProduct >= .8f) || latVeloMag > 1.5f && latVeloMag < 2f ) {
-                foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 100f * brakeAccel * Time.deltaTime;
-                }
-                    isBraking = true;
-                    Debug.Log("Applying LIGHT brake force. | Current Car Speed: " + currentCarSpeed);
-            }
-            //if the next waypoints angle is moderately off, do a moderate brake.
-            else if((currentCarSpeed >= autoBrakeThreshold) && (dotProduct < .8f && dotProduct >= .5f) || latVeloMag > 2f && latVeloMag < 5f){
-                foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 200f * brakeAccel * Time.deltaTime;
-                }
-                    isBraking = true;
-                    Debug.Log("Applying MODERATE brake force. | Current Car Speed: " + currentCarSpeed);
-            }
-            //if the next waypoints angle is very off, do a heavy brake.
-            else if(currentCarSpeed >= autoBrakeThreshold && ( dotProduct < .5f) || latVeloMag > 5f){
-                foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 300f * brakeAccel * Time.deltaTime;
-                }
-                    isBraking = true;
-                    Debug.Log("Applying HEAVY brake force. | Current Car Speed: " + currentCarSpeed);
-            }
-            else{
-                foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 0f;
-                }
-                Debug.Log("No braking applied. | Current Car Speed: " + currentCarSpeed);
-                isBraking = false;
-            } 
-        // }
-        // else {
-        //     foreach(var wheel in wheels){
-        //         wheel.wheelCollider.brakeTorque = 0f;
-        //     }
-        //     Debug.Log("Speed is below auto-brake threshold of [" + autoBrakeThreshold + "]. Auto-braking cannot take place." );
-        // }
-   }
-   
    private void burnout(){
     print("burnouts can be done.");
     //rotates back wheels for burnout effect
@@ -245,10 +193,6 @@ public class CarController : MonoBehaviour
         // print("Calculating Lateral Velocity");
         Vector3 right = transform.right;
         Vector3 latVel = Vector3.Project(rb.velocity, right);
-        latVelo = latVel;
-        latVeloMag = latVel.magnitude;
-
-        // Debug.Log("[" + gameObject + "] Lateral Velocity: " + latVel.magnitude);
 
         if(latVel.magnitude > slideThreshold){
             isSliding = true;
@@ -258,10 +202,6 @@ public class CarController : MonoBehaviour
             isSliding = false;
             // print("Sliding not active");
         }
-    }
-    
-    private void getCarSpeed(){
-        currentCarSpeed = rb.velocity.magnitude;
     }
 
     //raycast to check if the cars wheels are on the ground.
