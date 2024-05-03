@@ -6,7 +6,7 @@ public class CPU_Pathfinding : MonoBehaviour
 {
        public Transform[] waypoints;
     private int currentWaypointIndex;
-    private UnityEngine.AI.NavMeshAgent agent;
+    [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
     private CarController carController;
     [SerializeField] private Rigidbody rb;
     

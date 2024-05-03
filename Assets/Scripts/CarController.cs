@@ -17,7 +17,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxTurnAngle = 30f;
     [SerializeField] private float turnSensitivity = 1f;
     [SerializeField] private float burnoutRotSpeed = 100000f;
-    [SerializeField] private float boostForce = 300f;
+    [SerializeField] private float boostForce = 600f;
     [SerializeField] private float slideThreshold = 2f;
     [SerializeField] private bool burnoutPossible = false;
     private Vector3 _centerOfMass;
@@ -35,6 +35,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool isSliding = false;
     [SerializeField] private bool isBraking;
     [SerializeField] private bool isBoosting = false;
+    [SerializeField] private bool isNPC= false;
     [Header("Misc")]
 
     [SerializeField] private CameraController cameraClass;
@@ -58,9 +59,18 @@ public class CarController : MonoBehaviour
   }
    void Start(){
     rb.centerOfMass = _centerOfMass;
+    if (gameObject.tag == "Player") {
+        isNPC = false;
+    }
+    else {
+        isNPC = true;
+    }
+    // Debug.Log(gameObject);
    }
     private void Update(){
-        getInput();
+        if(!isNPC){
+            getInput();
+        }
         wheelRotation();
         calcLatVelocity();
         getCarSpeed();
@@ -76,16 +86,23 @@ public class CarController : MonoBehaviour
         if(Input.GetKey(KeyCode.LeftShift)){
             initiateBoost();
         }
+        wheelVFX();
     }
    private void getInput(){
-    moveInput = Input.GetAxis("Vertical");
-    steeringInput = Input.GetAxis("Horizontal");
-    
+        moveInput = Input.GetAxis("Vertical");
+        steeringInput = Input.GetAxis("Horizontal");
+        // Debug.Log("[On Game Object: " + gameObject + "] Move Input: " + moveInput + " Steering Input: " + steeringInput);
    }
+    
+    public void setInput(float vert, float horiz){
+        moveInput = vert;
+        steeringInput = horiz;
+    }
    private void move(){
     //adds movement in form of motor torque to car based on 'moveInput' variable.
     foreach(var wheel in wheels){
         wheel.wheelCollider.motorTorque = moveInput * 600f * maxAccel * Time.deltaTime;
+        // Debug.Log("[On Game Object: " + gameObject + "] Wheel Collider Torque: " + wheel.wheelCollider.motorTorque);
     }
     burnoutPossible = rb.velocity.magnitude <= 1f ? true : false;
    }
@@ -99,6 +116,7 @@ public class CarController : MonoBehaviour
     }
    }
    private void braking(){
+    
     //adds brake force when left control is pressed.
         if(Input.GetKey(KeyCode.LeftControl)) {
 
@@ -230,7 +248,9 @@ public class CarController : MonoBehaviour
    }
    private void wheelVFX(){
     foreach(var wheel in wheels){
-        if((isBraking && rb.velocity.magnitude >= 10f && wheel.axel == Axels.Rear && isGrounded())||(isSliding && wheel.axel == Axels.Rear && isGrounded())) {
+        //if braking, moving, and grounded, emit particles from all wheels.
+        //if sliding and grounded... emit particles from rear wheels.
+        if((isBraking && rb.velocity.magnitude >= 10f && isGrounded())||(isSliding && wheel.axel == Axels.Rear && isGrounded())) {
             wheel.wheelFXObj.GetComponentInChildren<TrailRenderer>().emitting = true;
             wheel.FX_TireSmoke.Emit(1);
         }
