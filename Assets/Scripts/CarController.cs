@@ -149,7 +149,7 @@ public class CarController : MonoBehaviour
             //if the next waypoints angle is slightly off, do a light brake.
             if((currentCarSpeed >= autoBrakeThreshold) && (dotProduct <= .9f && dotProduct >= .8f) || latVeloMag > 1.5f && latVeloMag < 2f ) {
                 foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 100f * brakeAccel * Time.deltaTime;
+                    wheel.wheelCollider.brakeTorque = 300f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
                     Debug.Log("Applying LIGHT brake force. | Current Car Speed: " + currentCarSpeed);
@@ -157,7 +157,7 @@ public class CarController : MonoBehaviour
             //if the next waypoints angle is moderately off, do a moderate brake.
             else if((currentCarSpeed >= autoBrakeThreshold) && (dotProduct < .8f && dotProduct >= .5f) || latVeloMag > 2f && latVeloMag < 5f){
                 foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 200f * brakeAccel * Time.deltaTime;
+                    wheel.wheelCollider.brakeTorque = 500f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
                     Debug.Log("Applying MODERATE brake force. | Current Car Speed: " + currentCarSpeed);
@@ -165,7 +165,7 @@ public class CarController : MonoBehaviour
             //if the next waypoints angle is very off, do a heavy brake.
             else if(currentCarSpeed >= autoBrakeThreshold && ( dotProduct < .5f) || latVeloMag > 5f){
                 foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 300f * brakeAccel * Time.deltaTime;
+                    wheel.wheelCollider.brakeTorque = 700f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
                     Debug.Log("Applying HEAVY brake force. | Current Car Speed: " + currentCarSpeed);

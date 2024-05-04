@@ -1685,6 +1685,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1904922873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &200253941 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1015280626199493867, guid: 7e9db6265f2037048bf8884370f2a0da,
+    type: 3}
+  m_PrefabInstance: {fileID: 212707055}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &200528384 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3861266525169673562, guid: a34469498081c6d4eb36aaf3b4d82959,
@@ -2809,7 +2815,7 @@ PrefabInstance:
     - target: {fileID: 6850134981037380744, guid: 3b12cf74e87049548a17d6240b5e325c,
         type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: NPC_Cars
       objectReference: {fileID: 0}
     - target: {fileID: 6863196743075497385, guid: 3b12cf74e87049548a17d6240b5e325c,
         type: 3}
@@ -5383,22 +5389,22 @@ PrefabInstance:
     - target: {fileID: 518492997163876116, guid: bde4d71b410d9d741add0d5c88437ba6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.29
+      value: 3.39
       objectReference: {fileID: 0}
     - target: {fileID: 518492997163876116, guid: bde4d71b410d9d741add0d5c88437ba6,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9851828
+      value: 0.9970119
       objectReference: {fileID: 0}
     - target: {fileID: 518492997163876116, guid: bde4d71b410d9d741add0d5c88437ba6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.17150794
+      value: 0.077248245
       objectReference: {fileID: 0}
     - target: {fileID: 518492997163876116, guid: bde4d71b410d9d741add0d5c88437ba6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 19.751
+      value: 8.861
       objectReference: {fileID: 0}
     - target: {fileID: 739529046409222558, guid: bde4d71b410d9d741add0d5c88437ba6,
         type: 3}
@@ -7213,6 +7219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1071145331}
+  - component: {fileID: 1071145332}
   m_Layer: 0
   m_Name: Racetrack
   m_TagString: Untagged
@@ -7237,6 +7244,24 @@ Transform:
   - {fileID: 1621937160}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1071145332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071145330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d321bba86c8fd374aae11af2974b7b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cars: []
+  trafficLights: []
+  rend:
+  - {fileID: 200253941}
+  - {fileID: 2022725933}
+  - {fileID: 1809985200}
 --- !u!1 &1111651960
 GameObject:
   m_ObjectHideFlags: 0
@@ -14116,6 +14141,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveSpeed: 1
   waveHeight: 4
+--- !u!23 &1809985200 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6945321186753198348, guid: 7e9db6265f2037048bf8884370f2a0da,
+    type: 3}
+  m_PrefabInstance: {fileID: 212707055}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1850302508
 Mesh:
   m_ObjectHideFlags: 0
@@ -15183,6 +15214,12 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7945707344175244067, guid: 4e630d52eb0a7c94d81a76c596960e1a, type: 3}
+--- !u!23 &2022725933 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6348416711011584826, guid: 7e9db6265f2037048bf8884370f2a0da,
+    type: 3}
+  m_PrefabInstance: {fileID: 212707055}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2033856697 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1447530589021019991, guid: bde4d71b410d9d741add0d5c88437ba6,
@@ -16374,6 +16411,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TempCar04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162683602688346986, guid: 46c9052a26c91dc468f820c61a17c232,
+        type: 3}
+      propertyPath: m_TagString
+      value: NPC_Cars
       objectReference: {fileID: 0}
     - target: {fileID: 7528091602462685560, guid: 46c9052a26c91dc468f820c61a17c232,
         type: 3}
