@@ -13,8 +13,8 @@ public class CharacterMovement : MonoBehaviour {
 	private float radiusOfSat;
 
 	void Start () {
-		maxSpeed = 1f;
-		radiusOfSat = 4f;
+		maxSpeed = 3f;
+		radiusOfSat = 3.5f;
 	}
 	
 	// Update is called once per frame
