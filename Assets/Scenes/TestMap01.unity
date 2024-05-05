@@ -3464,7 +3464,7 @@ PrefabInstance:
     - target: {fileID: 8556077516391247269, guid: 166b2405dfd6a3148b668e35f23dc51e,
         type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: NPC_Cars
       objectReference: {fileID: 0}
     - target: {fileID: 8676600261589120544, guid: 166b2405dfd6a3148b668e35f23dc51e,
         type: 3}
@@ -4426,7 +4426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -166, y: 114}
+  m_AnchoredPosition: {x: -150, y: 114}
   m_SizeDelta: {x: 200, y: 138.1562}
   m_Pivot: {x: 0.49999997, y: 0.5}
 --- !u!114 &641824447
@@ -4451,8 +4451,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1st
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b57c1547ecc96e447b6fda588006b2fe, type: 2}
+  m_sharedMaterial: {fileID: -8141224060858643503, guid: b57c1547ecc96e447b6fda588006b2fe,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5651,7 +5652,7 @@ PrefabInstance:
     - target: {fileID: 1447530589021019991, guid: bde4d71b410d9d741add0d5c88437ba6,
         type: 3}
       propertyPath: m_TagString
-      value: NPC_Cars
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1535781849008446769, guid: bde4d71b410d9d741add0d5c88437ba6,
         type: 3}
@@ -7506,6 +7507,11 @@ MonoBehaviour:
   - {fileID: 968171811}
   - {fileID: 1557899533}
   carsList: []
+  placementText: {fileID: 641824447}
+  placementTextLocation: {fileID: 641824446}
+  gold: {r: 0.8490566, g: 0.81859607, b: 0.4285333, a: 0}
+  silver: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 0}
+  bronze: {r: 0.509434, g: 0.36143604, b: 0.20906019, a: 0}
   trafficLight:
   - {fileID: 200253941}
   - {fileID: 2022725933}
@@ -8997,7 +9003,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1383619033
 Canvas:
   m_ObjectHideFlags: 0
@@ -9007,7 +9013,7 @@ Canvas:
   m_GameObject: {fileID: 1383619030}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -9030,7 +9036,7 @@ RectTransform:
   m_GameObject: {fileID: 1383619030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1878875077}
@@ -9038,9 +9044,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 187, y: 480}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1391387427
 GameObject:
   m_ObjectHideFlags: 0
@@ -9859,6 +9865,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5901866292180968517, guid: bde4d71b410d9d741add0d5c88437ba6,
+        type: 3}
+      propertyPath: m_Mass
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 6079181083522127976, guid: bde4d71b410d9d741add0d5c88437ba6,
         type: 3}

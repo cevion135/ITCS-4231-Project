@@ -9,6 +9,10 @@ public class RaceManager : MonoBehaviour
     [SerializeField] private List<GameObject> carsList;
     [SerializeField] private Dictionary<GameObject, int> carPlacements;
     [SerializeField] private TextMeshProUGUI placementText;
+    [SerializeField] private Transform placementTextLocation;
+
+    private Vector3 startPlacementPos = new Vector3(-126f, 140f, 0f);
+     private Vector3 endPlacementPos = new Vector3(-140f, 140f, 0f);
     public Color gold;
     public Color silver;
     public Color bronze;
@@ -142,6 +146,8 @@ public class RaceManager : MonoBehaviour
         trafficLight[2].material.SetColor("_EmissionColor", trafficGreen * lightOff);
         yield return new WaitForSeconds(2.6f);
 
+
+        // placementTextLocation.position = Vector3.Lerp(startPlacementPos, endPlacementPos, 3f * Time.deltaTime);
         trafficLight[0].material.SetColor("_EmissionColor", trafficRed * lightOn);
         yield return new WaitForSeconds(1.4f);
 

@@ -100,11 +100,20 @@ public class CarController : MonoBehaviour
     }
    private void move(){
     //adds movement in form of motor torque to car based on 'moveInput' variable.
+    if(!isNPC){
+        foreach(var wheel in wheels){
+        wheel.wheelCollider.motorTorque = moveInput * 250f * maxAccel * Time.deltaTime;
+        // Debug.Log("[On Game Object: " + gameObject + "] Wheel Collider Torque: " + wheel.wheelCollider.motorTorque);
+            burnoutPossible = rb.velocity.magnitude <= 1f ? true : false;
+        }
+    }
+    else{
     foreach(var wheel in wheels){
-        wheel.wheelCollider.motorTorque = moveInput * 600f * maxAccel * Time.deltaTime;
+        wheel.wheelCollider.motorTorque = moveInput * 12000f * maxAccel * Time.deltaTime;
         // Debug.Log("[On Game Object: " + gameObject + "] Wheel Collider Torque: " + wheel.wheelCollider.motorTorque);
     }
     burnoutPossible = rb.velocity.magnitude <= 1f ? true : false;
+    }
    }
    private void steering(){
     //steers front axel wheels based on 'steeringInput' variable.
@@ -301,13 +310,14 @@ public class CarController : MonoBehaviour
     //     isBoosting = !isBoosting;
     // }
     private void initiateBoost(){
-        isBoosting = !isBoosting;
-        LeftExhaustBoost.Play();
-        RightExhaustBoost.Play();
-        cameraClass.cameraShake();
-        StartCoroutine(ShakeCoroutine());
-        rb.AddForce(transform.forward * boostForce, ForceMode.Impulse);
-        //logic for boosting rigidBody forward.
+        if(!isNPC){
+            isBoosting = !isBoosting;
+            LeftExhaustBoost.Play();
+            RightExhaustBoost.Play();
+            cameraClass.cameraShake();
+            StartCoroutine(ShakeCoroutine());
+            rb.AddForce(transform.forward * boostForce, ForceMode.Impulse);
+        }
 
 
     }
