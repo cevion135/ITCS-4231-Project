@@ -11,10 +11,12 @@ public class CharacterMovement : MonoBehaviour {
 
 	private float maxSpeed;
 	private float radiusOfSat;
+	private float detectionRadius;
 
 	void Start () {
 		maxSpeed = 3f;
-		radiusOfSat = 3.5f;
+		radiusOfSat = 2f;
+		detectionRadius = 35f;
 	}
 	
 	// Update is called once per frame
@@ -25,6 +27,7 @@ public class CharacterMovement : MonoBehaviour {
 		trans.rotation = Quaternion.LookRotation (towards);
 
 		// If we haven't reached the target yet
+		if (towards.magnitude > detectionRadius == false){
 		if (towards.magnitude > radiusOfSat) {
 
 			// Normalize vector to get just the direction
@@ -36,6 +39,7 @@ public class CharacterMovement : MonoBehaviour {
 		} else {
 			Animator.enabled = false;
 			this.enabled = false;
+		}
 		}
 	}
 }

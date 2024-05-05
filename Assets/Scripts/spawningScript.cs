@@ -5,22 +5,23 @@ using UnityEngine;
 public class spawningScript : MonoBehaviour
 {
     [SerializeField] GameObject spawnObject;
-    [SerializeField] float x;
-    [SerializeField] float y;
-    [SerializeField] float z;
+    [SerializeField] GameObject thisSpawner;
+   // [SerializeField] Vector3 spawnerLocation;
+
     // Start is called before the first frame update
     void Start()
     {
        
     }
     int r = 0;
-    //Random rnd = new Random();
-    // Update is called once per frame
+
     void Update()
     {
-        
+
+        //Vector3 offset = new Vector3( Random.Range(-10f, 10f), 0 , Random.Range(-10f, 10f));
         while(r < 10){
-        Instantiate(spawnObject, new Vector3(x + Random.Range(-10f, 10f), y , z + Random.Range(-10f, 10f)), Quaternion.identity);
+            Vector3 offset = new Vector3( Random.Range(-10f, 10f), 0 , Random.Range(-10f, 10f));
+        Instantiate(spawnObject, (thisSpawner.transform.position + offset), Quaternion.identity);
         r++;
         }
     }
