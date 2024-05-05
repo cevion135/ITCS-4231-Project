@@ -35,6 +35,7 @@ public class CharacterMovement : MonoBehaviour {
 			rb.velocity = towards;
 		} else {
 			Animator.enabled = false;
+			this.enabled = false;
 		}
 	}
 }
