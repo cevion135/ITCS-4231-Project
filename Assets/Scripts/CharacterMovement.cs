@@ -7,15 +7,14 @@ public class CharacterMovement : MonoBehaviour {
 	[SerializeField] private Transform trans;
 	[SerializeField] private Rigidbody rb;
 	[SerializeField] private Transform target;
-	[SerializeField] private Animator Animator;
 
 
 	private float maxSpeed;
 	private float radiusOfSat;
 
 	void Start () {
-		maxSpeed = 3f;
-		radiusOfSat = 3.5f;
+		maxSpeed = 1f;
+		radiusOfSat = 4f;
 	}
 	
 	// Update is called once per frame
@@ -34,8 +33,6 @@ public class CharacterMovement : MonoBehaviour {
 
 			// Move character
 			rb.velocity = towards;
-		} else{
-			Animator.enabled = false;
 		}
 	}
 }
