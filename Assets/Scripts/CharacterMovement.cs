@@ -7,7 +7,7 @@ public class CharacterMovement : MonoBehaviour {
 	[SerializeField] private Transform trans;
 	[SerializeField] private Rigidbody rb;
 	[SerializeField] private Transform target;
-
+	[SerializeField] private Animator Animator;
 
 	private float maxSpeed;
 	private float radiusOfSat;
@@ -33,6 +33,8 @@ public class CharacterMovement : MonoBehaviour {
 
 			// Move character
 			rb.velocity = towards;
+		} else {
+			Animator.enabled = false;
 		}
 	}
 }
