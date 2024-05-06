@@ -21458,8 +21458,6 @@ MonoBehaviour:
     FX_TireSmoke: {fileID: 6582506083291036302}
     axel: 1
   rb: {fileID: 5901866292180968517}
-  currentCarSpeed: 0
-  autoBrakeThreshold: 20
   maxAccel: 300
   brakeAccel: 500
   maxTurnAngle: 30
@@ -21468,15 +21466,12 @@ MonoBehaviour:
   boostForce: 600
   slideThreshold: 2
   burnoutPossible: 0
-  latVelo: {x: 0, y: 0, z: 0}
-  latVeloMag: 0
   moveInput: 0
   steeringInput: 0
   isBurnout: 0
   isSliding: 0
   isBraking: 0
   isBoosting: 0
-  isNPC: 0
   cameraClass: {fileID: 2229982494170295611}
   groundLayer:
     serializedVersion: 2

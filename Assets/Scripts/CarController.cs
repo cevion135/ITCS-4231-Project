@@ -100,20 +100,11 @@ public class CarController : MonoBehaviour
     }
    private void move(){
     //adds movement in form of motor torque to car based on 'moveInput' variable.
-    if(!isNPC){
-        foreach(var wheel in wheels){
-        wheel.wheelCollider.motorTorque = moveInput * 250f * maxAccel * Time.deltaTime;
-        // Debug.Log("[On Game Object: " + gameObject + "] Wheel Collider Torque: " + wheel.wheelCollider.motorTorque);
-            burnoutPossible = rb.velocity.magnitude <= 1f ? true : false;
-        }
-    }
-    else{
     foreach(var wheel in wheels){
-        wheel.wheelCollider.motorTorque = moveInput * 12000f * maxAccel * Time.deltaTime;
+        wheel.wheelCollider.motorTorque = moveInput * 600f * maxAccel * Time.deltaTime;
         // Debug.Log("[On Game Object: " + gameObject + "] Wheel Collider Torque: " + wheel.wheelCollider.motorTorque);
     }
     burnoutPossible = rb.velocity.magnitude <= 1f ? true : false;
-    }
    }
    private void steering(){
     //steers front axel wheels based on 'steeringInput' variable.
@@ -158,7 +149,7 @@ public class CarController : MonoBehaviour
             //if the next waypoints angle is slightly off, do a light brake.
             if((currentCarSpeed >= autoBrakeThreshold) && (dotProduct <= .9f && dotProduct >= .8f) || latVeloMag > 1.5f && latVeloMag < 2f ) {
                 foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 300f * brakeAccel * Time.deltaTime;
+                    wheel.wheelCollider.brakeTorque = 100f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
                     Debug.Log("Applying LIGHT brake force. | Current Car Speed: " + currentCarSpeed);
@@ -166,7 +157,7 @@ public class CarController : MonoBehaviour
             //if the next waypoints angle is moderately off, do a moderate brake.
             else if((currentCarSpeed >= autoBrakeThreshold) && (dotProduct < .8f && dotProduct >= .5f) || latVeloMag > 2f && latVeloMag < 5f){
                 foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 500f * brakeAccel * Time.deltaTime;
+                    wheel.wheelCollider.brakeTorque = 200f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
                     Debug.Log("Applying MODERATE brake force. | Current Car Speed: " + currentCarSpeed);
@@ -174,7 +165,7 @@ public class CarController : MonoBehaviour
             //if the next waypoints angle is very off, do a heavy brake.
             else if(currentCarSpeed >= autoBrakeThreshold && ( dotProduct < .5f) || latVeloMag > 5f){
                 foreach(var wheel in wheels){
-                    wheel.wheelCollider.brakeTorque = 700f * brakeAccel * Time.deltaTime;
+                    wheel.wheelCollider.brakeTorque = 300f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
                     Debug.Log("Applying HEAVY brake force. | Current Car Speed: " + currentCarSpeed);
@@ -310,14 +301,13 @@ public class CarController : MonoBehaviour
     //     isBoosting = !isBoosting;
     // }
     private void initiateBoost(){
-        if(!isNPC){
-            isBoosting = !isBoosting;
-            LeftExhaustBoost.Play();
-            RightExhaustBoost.Play();
-            cameraClass.cameraShake();
-            StartCoroutine(ShakeCoroutine());
-            rb.AddForce(transform.forward * boostForce, ForceMode.Impulse);
-        }
+        isBoosting = !isBoosting;
+        LeftExhaustBoost.Play();
+        RightExhaustBoost.Play();
+        cameraClass.cameraShake();
+        StartCoroutine(ShakeCoroutine());
+        rb.AddForce(transform.forward * boostForce, ForceMode.Impulse);
+        //logic for boosting rigidBody forward.
 
 
     }

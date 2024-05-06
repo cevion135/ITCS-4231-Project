@@ -64,14 +64,14 @@ public class CPU_Pathfinding : MonoBehaviour
             //NOTE: AND FACING FORWARD VIA DOT PRODUCT
             if(Physics.Raycast(transform.position, direction, out hit, raycastDistance)) {
                     obstruction = true;
-                    // if(i == 0) {
-                    //     turnRight();
-                    //     // Debug.Log("Obstruction Detected. Turning Right...");
-                    // }
-                    // else if(i == 2){
-                    //     turnLeft();
-                    //     // Debug.Log("Obstruction Detected. Turning Left...");
-                    // }
+                    if(i == 0) {
+                        turnRight();
+                        // Debug.Log("Obstruction Detected. Turning Right...");
+                    }
+                    else if(i == 2){
+                        turnLeft();
+                        // Debug.Log("Obstruction Detected. Turning Left...");
+                    }
             }
             else{
                 obstruction = false;
