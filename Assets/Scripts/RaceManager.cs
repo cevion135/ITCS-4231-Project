@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
@@ -10,9 +11,10 @@ public class RaceManager : MonoBehaviour
     [SerializeField] private Dictionary<GameObject, int> carPlacements;
     [SerializeField] private TextMeshProUGUI placementText;
     [SerializeField] private Transform placementTextLocation;
-
+    [SerializeField] private Slider boostGuageSlider;
+    [SerializeField] private CarController playerCC;
     private Vector3 startPlacementPos = new Vector3(-126f, 140f, 0f);
-     private Vector3 endPlacementPos = new Vector3(-140f, 140f, 0f);
+    private Vector3 endPlacementPos = new Vector3(-140f, 140f, 0f);
     public Color gold;
     public Color silver;
     public Color bronze;
@@ -35,9 +37,13 @@ public class RaceManager : MonoBehaviour
     void Update()
     {
         calculatePlacement();
+        updateBoostGuage();
     }
 
     //based on car array, this script will determine what cars are in what place during the race.
+    private void updateBoostGuage(){
+        boostGuageSlider.value = playerCC.boostGuage;
+    }
     private void calculatePlacement(){
          //order the list...
        carsList.Sort((car1, car2) =>
