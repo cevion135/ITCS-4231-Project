@@ -19,7 +19,7 @@ public class CharacterMovement : MonoBehaviour {
 
 	void Start () {
 		maxSpeed = 3f;
-		radiusOfSat = 2f;
+		radiusOfSat = 1.5f;
 		detectionRadius = 35f;
 	}
 	
