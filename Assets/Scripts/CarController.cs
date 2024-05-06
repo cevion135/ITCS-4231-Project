@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
@@ -17,7 +18,10 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxTurnAngle = 30f;
     [SerializeField] private float turnSensitivity = 1f;
     [SerializeField] private float burnoutRotSpeed = 100000f;
-    [SerializeField] private float boostForce = 600f;
+    [SerializeField] private float boostForce = 3000f;
+    [SerializeField] private float boostThreshold = 100f;
+     [SerializeField] public float boostGuage = 0;
+    //   [SerializeField] private Slider boostGuageSlider;
     [SerializeField] private float slideThreshold = 2f;
     [SerializeField] private bool burnoutPossible = false;
     private Vector3 _centerOfMass;
@@ -35,7 +39,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool isSliding = false;
     [SerializeField] private bool isBraking;
     [SerializeField] private bool isBoosting = false;
-    [SerializeField] private bool isNPC= false;
+    [SerializeField] private bool isNPC = false;
     [Header("Misc")]
 
     [SerializeField] private CameraController cameraClass;
@@ -58,6 +62,7 @@ public class CarController : MonoBehaviour
     public Axels axel;
   }
    void Start(){
+    // boostGuageSlider.value = 0f;
     rb.centerOfMass = _centerOfMass;
     if (gameObject.tag == "Player") {
         isNPC = false;
@@ -149,8 +154,8 @@ public class CarController : MonoBehaviour
    }
 
    public void cpu_braking(float dotProduct){
-        Debug.Log("Wheel Collider Brake Torque: " + wheels[0].wheelCollider.brakeTorque);
-        Debug.Log("Current Lateral Velocity: [" + latVeloMag + "]." );
+        // Debug.Log("Wheel Collider Brake Torque: " + wheels[0].wheelCollider.brakeTorque);
+        // Debug.Log("Current Lateral Velocity: [" + latVeloMag + "]." );
 
 
         // //check to make sure brakes don't apply at low speeds.
@@ -161,7 +166,7 @@ public class CarController : MonoBehaviour
                     wheel.wheelCollider.brakeTorque = 300f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
-                    Debug.Log("Applying LIGHT brake force. | Current Car Speed: " + currentCarSpeed);
+                    // Debug.Log("Applying LIGHT brake force. | Current Car Speed: " + currentCarSpeed);
             }
             //if the next waypoints angle is moderately off, do a moderate brake.
             else if((currentCarSpeed >= autoBrakeThreshold) && (dotProduct < .8f && dotProduct >= .5f) || latVeloMag > 2f && latVeloMag < 5f){
@@ -169,7 +174,7 @@ public class CarController : MonoBehaviour
                     wheel.wheelCollider.brakeTorque = 500f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
-                    Debug.Log("Applying MODERATE brake force. | Current Car Speed: " + currentCarSpeed);
+                    // Debug.Log("Applying MODERATE brake force. | Current Car Speed: " + currentCarSpeed);
             }
             //if the next waypoints angle is very off, do a heavy brake.
             else if(currentCarSpeed >= autoBrakeThreshold && ( dotProduct < .5f) || latVeloMag > 5f){
@@ -177,13 +182,13 @@ public class CarController : MonoBehaviour
                     wheel.wheelCollider.brakeTorque = 700f * brakeAccel * Time.deltaTime;
                 }
                     isBraking = true;
-                    Debug.Log("Applying HEAVY brake force. | Current Car Speed: " + currentCarSpeed);
+                    // Debug.Log("Applying HEAVY brake force. | Current Car Speed: " + currentCarSpeed);
             }
             else{
                 foreach(var wheel in wheels){
                     wheel.wheelCollider.brakeTorque = 0f;
                 }
-                Debug.Log("No braking applied. | Current Car Speed: " + currentCarSpeed);
+                // Debug.Log("No braking applied. | Current Car Speed: " + currentCarSpeed);
                 isBraking = false;
             } 
         // }
@@ -310,16 +315,34 @@ public class CarController : MonoBehaviour
     //     isBoosting = !isBoosting;
     // }
     private void initiateBoost(){
-        if(!isNPC){
+        if(!isNPC && (boostGuage == boostThreshold)){
             isBoosting = !isBoosting;
             LeftExhaustBoost.Play();
             RightExhaustBoost.Play();
-            cameraClass.cameraShake();
+            // cameraClass.cameraShake();
             StartCoroutine(ShakeCoroutine());
             rb.AddForce(transform.forward * boostForce, ForceMode.Impulse);
+            boostGuage = 0f;
         }
 
 
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(!isNPC){
+            if(collision.gameObject.transform.parent != null){
+                GameObject parentObject = collision.gameObject.transform.parent.gameObject;
+                // Debug.Log(parentObject);
+                if (parentObject.CompareTag("Zombie"))
+                {
+                     if(boostGuage < 100f){
+                     boostGuage += 50f;
+                    //  boostGuageSlider.value = Mathf.Lerp(boostGuageSlider.value, boostGuage, 0.05f);
+                     Debug.Log("zombie hit! current boost guage: " + boostGuage);
+                     }
+                }
+            }
+        }
     }
     IEnumerator ShakeCoroutine(){
         yield return new WaitForSeconds(3);

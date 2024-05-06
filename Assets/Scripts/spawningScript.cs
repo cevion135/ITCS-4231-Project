@@ -21,8 +21,9 @@ public class spawningScript : MonoBehaviour
         //Vector3 offset = new Vector3( Random.Range(-10f, 10f), 0 , Random.Range(-10f, 10f));
         while(r < 10){
             Vector3 offset = new Vector3( Random.Range(-10f, 10f), 0 , Random.Range(-10f, 10f));
-        Instantiate(spawnObject, (thisSpawner.transform.position + offset), Quaternion.identity);
-        r++;
+            GameObject zombie = Instantiate(spawnObject, (thisSpawner.transform.position + offset), Quaternion.identity);
+            zombie.tag = "Zombie";
+            r++;
         }
     }
     

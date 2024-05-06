@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
@@ -9,10 +10,13 @@ public class RaceManager : MonoBehaviour
     [SerializeField] private List<GameObject> carsList;
     [SerializeField] private Dictionary<GameObject, int> carPlacements;
     [SerializeField] private TextMeshProUGUI placementText;
+    [SerializeField] private bool needsUpdate;
     [SerializeField] private Transform placementTextLocation;
-
+    [SerializeField] private Slider boostGuageSlider;
+    [SerializeField] private CarController playerCC;
     private Vector3 startPlacementPos = new Vector3(-126f, 140f, 0f);
-     private Vector3 endPlacementPos = new Vector3(-140f, 140f, 0f);
+    private Vector3 endPlacementPos = new Vector3(-140f, 140f, 0f);
+
     public Color gold;
     public Color silver;
     public Color bronze;
@@ -27,6 +31,7 @@ public class RaceManager : MonoBehaviour
     void Start()
     {
         carPlacements = new Dictionary<GameObject, int>();
+        needsUpdate = true;
         populateCarList();
         startCountdown();
     }
@@ -34,17 +39,74 @@ public class RaceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // calculatePlacement();
+        // if (needsUpdate)
+        // {
+        //     needsUpdate = false;
+        //     UpdateCarPositions();
+        //     StartCoroutine(placementCooldown());
+            
+        // }
         calculatePlacement();
+        updateBoostGuage();
     }
+    // private void UpdateCarPositions(){
+    //     // Calculate and sort car distances to track nodes
+    //     foreach (GameObject car in carsList)
+    //     {
+    //         float minDistance = float.MaxValue;
+    //         int nearestNodeIndex = -1;
 
+    //         for (int i = 0; i < trackNodes.Count; i++)
+    //         {
+    //             float distance = Vector3.Distance(car.transform.position, trackNodes[i].position);
+    //             if (distance < minDistance)
+    //             {
+    //                 minDistance = distance;
+    //                 nearestNodeIndex = i;
+    //             }
+    //         }
+
+    //         carPlacements[car] = nearestNodeIndex;
+    //     }
+
+    //     // Sort cars based on their nearest node index
+    //     carsList.Sort((a, b) => carPlacements[a].CompareTo(carPlacements[b]));
+
+    //     // Assign positions to cars
+    //     for (int i = 0; i < carsList.Count; i++)
+    //     {
+    //         carPlacements[carsList[i]] = i + 1; // Assign position (1-indexed)
+    //     }
+
+    //     // Example: print car positions
+    //     foreach (var car in carPlacements)
+    //     {
+    //         Debug.Log(car.Key.name + " is in position " + car.Value);
+    //     }
+    // }
+    private IEnumerator placementCooldown(){
+        yield return new WaitForSeconds(2f);
+        SetUpdate();
+    }
+    private void SetUpdate(){
+        updatePlayerPlacement();
+        needsUpdate = true;
+    }
     //based on car array, this script will determine what cars are in what place during the race.
+    private void updateBoostGuage(){
+        boostGuageSlider.value = playerCC.boostGuage;
+    }
     private void calculatePlacement(){
          //order the list...
        carsList.Sort((car1, car2) =>
         {
             float distance1 = distanceToNode(car1.transform);
             float distance2 = distanceToNode(car2.transform);
+
+            Debug.Log(car1 + " Distance 1: [" + distance1 + "] " + car2 + " Distance 2: [" + distance2 + "]" );
             return distance1.CompareTo(distance2);
+            Debug.Log("Comparison: " + distance1.CompareTo(distance2));
         });
         
         //assign values accordingly
