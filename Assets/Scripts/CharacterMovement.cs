@@ -27,14 +27,16 @@ public class CharacterMovement : MonoBehaviour {
 		trans.rotation = Quaternion.LookRotation (towards);
 
 		// If we haven't reached the target yet
+		//Animator.SetBool("isMoving", false);
 		if (towards.magnitude > detectionRadius == false){
 		if (towards.magnitude > radiusOfSat) {
 
 			// Normalize vector to get just the direction
 			towards.Normalize ();
 			towards *= maxSpeed;
-
+			
 			// Move character
+			//Animator.SetBool("isMoving", true);
 			rb.velocity = towards;
 		} else {
 			Animator.enabled = false;
