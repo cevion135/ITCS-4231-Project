@@ -2537,6 +2537,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294503757}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &327621927 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4162683602688186186, guid: 46c9052a26c91dc468f820c61a17c232,
+    type: 3}
+  m_PrefabInstance: {fileID: 1531036521013319047}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &343867646
 GameObject:
   m_ObjectHideFlags: 0
@@ -3676,6 +3682,12 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!4 &412091646 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9076613106649839391, guid: 166b2405dfd6a3148b668e35f23dc51e,
+    type: 3}
+  m_PrefabInstance: {fileID: 412091637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &417308101 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9041096441370910026, guid: a34469498081c6d4eb36aaf3b4d82959,
@@ -10378,6 +10390,12 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -784566545644147505, guid: fb208ae619cf34a439b5ed83637439ec, type: 3}
+--- !u!4 &1454921432 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6078524502374190642, guid: 3b12cf74e87049548a17d6240b5e325c,
+    type: 3}
+  m_PrefabInstance: {fileID: 364417947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1458403289
 Mesh:
   m_ObjectHideFlags: 0
@@ -10720,6 +10738,26 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1225794779}
+    - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
+        type: 3}
+      propertyPath: target1
+      value: 
+      objectReference: {fileID: 2033856708}
+    - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
+        type: 3}
+      propertyPath: target2
+      value: 
+      objectReference: {fileID: 412091646}
+    - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
+        type: 3}
+      propertyPath: target3
+      value: 
+      objectReference: {fileID: 1454921432}
+    - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
+        type: 3}
+      propertyPath: target4
+      value: 
+      objectReference: {fileID: 327621927}
     - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
         type: 3}
       propertyPath: Animator
@@ -17341,6 +17379,12 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!4 &2033856708 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2260096498021451245, guid: bde4d71b410d9d741add0d5c88437ba6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1505316763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &2040899844
 Mesh:
   m_ObjectHideFlags: 0
