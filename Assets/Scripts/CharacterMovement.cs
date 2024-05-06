@@ -7,8 +7,13 @@ public class CharacterMovement : MonoBehaviour {
 	[SerializeField] private Transform trans;
 	[SerializeField] private Rigidbody rb;
 	[SerializeField] private Transform target;
+	[SerializeField] private Transform target1;
+	[SerializeField] private Transform target2;
+	[SerializeField] private Transform target3;
+	[SerializeField] private Transform target4;
+	[SerializeField] private Transform target5;
 	[SerializeField] private Animator Animator;
-
+	
 	private float maxSpeed;
 	private float radiusOfSat;
 	private float detectionRadius;
@@ -39,8 +44,10 @@ public class CharacterMovement : MonoBehaviour {
 			//Animator.SetBool("isMoving", true);
 			rb.velocity = towards;
 		} else {
+			
 			Animator.enabled = false;
 			this.enabled = false;
+			
 		}
 		}
 	}
