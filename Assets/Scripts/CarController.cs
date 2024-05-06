@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 public class CarController : MonoBehaviour
 {
@@ -18,9 +19,11 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxTurnAngle = 30f;
     [SerializeField] private float turnSensitivity = 1f;
     [SerializeField] private float burnoutRotSpeed = 100000f;
-    [SerializeField] private float boostForce = 3000f;
+    [SerializeField] private float boostForce = 2000f;
     [SerializeField] private float boostThreshold = 100f;
-     [SerializeField] public float boostGuage = 0;
+     [SerializeField] public float boostGauge = 0f;
+    [SerializeField] private TextMeshProUGUI driftTimeText;
+    [SerializeField] private float driftTimeFloat = 0f;
     //   [SerializeField] private Slider boostGuageSlider;
     [SerializeField] private float slideThreshold = 2f;
     [SerializeField] private bool burnoutPossible = false;
@@ -62,6 +65,7 @@ public class CarController : MonoBehaviour
     public Axels axel;
   }
    void Start(){
+
     // boostGuageSlider.value = 0f;
     rb.centerOfMass = _centerOfMass;
     if (gameObject.tag == "Player") {
@@ -79,6 +83,7 @@ public class CarController : MonoBehaviour
         wheelRotation();
         calcLatVelocity();
         getCarSpeed();
+        // Debug.Log("Boost Guage Float: " + boostGauge);
         //Speed Check
         // print(rb.velocity.magnitude);
     }
@@ -286,6 +291,20 @@ public class CarController : MonoBehaviour
 
         if(latVel.magnitude > slideThreshold){
             isSliding = true;
+            if(!isNPC){
+                driftTimeFloat += (float)Math.Round(Time.deltaTime,2);
+                string roundedFloat = driftTimeFloat.ToString("F2");
+                float roundedFloat2 = float.Parse(roundedFloat);
+
+
+                driftTimeText.text = ("Drift Time: +" + roundedFloat2 + " sec");
+                if(boostGauge <= 100f){
+                    boostGauge += (driftTimeFloat/100f);
+                }
+                if(boostGauge > 100f){
+                    boostGauge = 100f;
+                }
+            }
             // print("Sliding Active");
         }
         else{
@@ -315,14 +334,14 @@ public class CarController : MonoBehaviour
     //     isBoosting = !isBoosting;
     // }
     private void initiateBoost(){
-        if(!isNPC && (boostGuage == boostThreshold)){
+        if(!isNPC && (boostGauge == boostThreshold)){
             isBoosting = !isBoosting;
             LeftExhaustBoost.Play();
             RightExhaustBoost.Play();
             // cameraClass.cameraShake();
             StartCoroutine(ShakeCoroutine());
             rb.AddForce(transform.forward * boostForce, ForceMode.Impulse);
-            boostGuage = 0f;
+            boostGauge = 0f;
         }
 
 
@@ -330,17 +349,24 @@ public class CarController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if(!isNPC){
+            // Debug.Log(collision.gameObject.tag);
             if(collision.gameObject.transform.parent != null){
                 GameObject parentObject = collision.gameObject.transform.parent.gameObject;
                 // Debug.Log(parentObject);
                 if (parentObject.CompareTag("Zombie"))
                 {
-                     if(boostGuage < 100f){
-                     boostGuage += 50f;
-                    //  boostGuageSlider.value = Mathf.Lerp(boostGuageSlider.value, boostGuage, 0.05f);
-                     Debug.Log("zombie hit! current boost guage: " + boostGuage);
+                     if(boostGauge <= 100f){
+                        boostGauge += 20f;
+                        //  boostGuageSlider.value = Mathf.Lerp(boostGuageSlider.value, boostGuage, 0.05f);
+                        Debug.Log("zombie hit! current boost guage: " + boostGauge);
                      }
+                    if(boostGauge > 100f){
+                        boostGauge = 100f;
+                    }
                 }
+            }
+            if(collision.gameObject.tag == "Guardrail"){
+                driftTimeFloat = 0f;
             }
         }
     }

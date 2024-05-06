@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CPU_Pathfinding : MonoBehaviour
 {
-       public Transform[] waypoints;
+    [SerializeField] private GameObject TrackNodes;
+    public Transform[] waypoints;
     private int currentWaypointIndex;
     [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
     private CarController carController;
     [SerializeField] private Rigidbody rb;
     
     [Header("Steering")]
-    [SerializeField] private float steeringSpeed;
-    [SerializeField] private float accelSpeed;
+    [SerializeField] private float steeringSpeed = .3f;
+    [SerializeField] private float accelSpeed = .4f;
     [SerializeField] private float dotProduct;
     [SerializeField] float NPC_Vert = 0f;
     [SerializeField] float NPC_Horiz = 0f;
@@ -33,7 +35,7 @@ public class CPU_Pathfinding : MonoBehaviour
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         currentWaypointIndex = 0;
-        // Time.timeScale = .5f;
+        initalizeWaypoints();
     }
 
     void Update()
@@ -134,6 +136,21 @@ public class CPU_Pathfinding : MonoBehaviour
         {
             // Debug.Log("Now Setting to waypoint #" + currentWaypointIndex);
             SetNextWaypoint();
+        }
+    }
+
+    //puts all of the track waypoints in an array that can be read by script.
+    private void initalizeWaypoints(){
+        waypoints = TrackNodes.GetComponentsInChildren<Transform>();
+      
+        if (waypoints.Length > 1)
+        {
+            for (int i = 0; i < waypoints.Length - 1; i++)
+            {
+                waypoints[i] = waypoints[i + 1];
+            }
+
+            System.Array.Resize(ref waypoints, waypoints.Length - 1);
         }
     }
     void turnRight(){

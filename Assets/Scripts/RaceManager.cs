@@ -31,7 +31,7 @@ public class RaceManager : MonoBehaviour
     void Start()
     {
         carPlacements = new Dictionary<GameObject, int>();
-        needsUpdate = true;
+        // needsUpdate = true;
         populateCarList();
         startCountdown();
     }
@@ -95,7 +95,7 @@ public class RaceManager : MonoBehaviour
     }
     //based on car array, this script will determine what cars are in what place during the race.
     private void updateBoostGuage(){
-        boostGuageSlider.value = playerCC.boostGuage;
+        boostGuageSlider.value = playerCC.boostGauge;
     }
     private void calculatePlacement(){
          //order the list...
@@ -104,9 +104,9 @@ public class RaceManager : MonoBehaviour
             float distance1 = distanceToNode(car1.transform);
             float distance2 = distanceToNode(car2.transform);
 
-            Debug.Log(car1 + " Distance 1: [" + distance1 + "] " + car2 + " Distance 2: [" + distance2 + "]" );
+            // Debug.Log(car1 + " Distance 1: [" + distance1 + "] " + car2 + " Distance 2: [" + distance2 + "]" );
             return distance1.CompareTo(distance2);
-            Debug.Log("Comparison: " + distance1.CompareTo(distance2));
+            // Debug.Log("Comparison: " + distance1.CompareTo(distance2));
         });
         
         //assign values accordingly
