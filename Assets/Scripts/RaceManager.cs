@@ -11,6 +11,7 @@ public class RaceManager : MonoBehaviour
     [SerializeField] private Dictionary<GameObject, int> carPlacements;
     [SerializeField] private TextMeshProUGUI placementText;
     [SerializeField] private TextMeshProUGUI lapTracker;
+    [SerializeField] private TextMeshProUGUI gameEndingText;
     [SerializeField] private bool needsUpdate;
     [SerializeField] private bool canUpdateLaps = true;
     [SerializeField] public bool canUpdateLap = true;
@@ -21,6 +22,7 @@ public class RaceManager : MonoBehaviour
     [SerializeField] public float lap = 0f;
     [SerializeField] private float totalLaps = 3f;
     [SerializeField] private GameObject victOver;
+
     [SerializeField] private float timeElpased = 0;
     
     private Vector3 startPlacementPos = new Vector3(-126f, 140f, 0f);
@@ -78,7 +80,10 @@ public class RaceManager : MonoBehaviour
             StartCoroutine(lapCooldown());
         }
         if(lap == 4f){
+            gameEndingText.text = "You Finished the race! \nRace Completed in: " + timeElpased;
+            playerCC.enabled = false;
             victOver.SetActive(true);
+
             //end the game or some shit.
         }
     }
