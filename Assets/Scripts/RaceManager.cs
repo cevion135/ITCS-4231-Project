@@ -20,6 +20,8 @@ public class RaceManager : MonoBehaviour
     // [SerializeField] public float currentLap = 0f;
     [SerializeField] public float lap = 0f;
     [SerializeField] private float totalLaps = 3f;
+    [SerializeField] private GameObject victOver;
+    [SerializeField] private float timeElpased = 0;
     
     private Vector3 startPlacementPos = new Vector3(-126f, 140f, 0f);
     private Vector3 endPlacementPos = new Vector3(-140f, 140f, 0f);
@@ -47,6 +49,9 @@ public class RaceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(lap != 4){
+            trackTime();
+        }
         // calculatePlacement();
         // if (needsUpdate)
         // {
@@ -61,6 +66,10 @@ public class RaceManager : MonoBehaviour
             updateLaps();
         }
     }
+    private void trackTime(){
+        timeElpased += Time.deltaTime;
+    }
+
     private void updateLaps() {
         
         if(lap > 0f){
@@ -69,6 +78,7 @@ public class RaceManager : MonoBehaviour
             StartCoroutine(lapCooldown());
         }
         if(lap == 4f){
+            victOver.SetActive(true);
             //end the game or some shit.
         }
     }
