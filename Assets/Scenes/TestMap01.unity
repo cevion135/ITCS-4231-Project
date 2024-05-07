@@ -3273,6 +3273,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1864037776}
   m_SourcePrefab: {fileID: 100100000, guid: 3b12cf74e87049548a17d6240b5e325c, type: 3}
+--- !u!4 &364417948 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6078524502374190642, guid: 3b12cf74e87049548a17d6240b5e325c,
+    type: 3}
+  m_PrefabInstance: {fileID: 364417947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &370481340 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1118272885277993169, guid: 5fe38f08f9bb9c142bb0d413fa4d5975,
@@ -3942,6 +3948,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 412091637}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &412091639 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9076613106649839391, guid: 166b2405dfd6a3148b668e35f23dc51e,
+    type: 3}
+  m_PrefabInstance: {fileID: 412091637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &412091643
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3982,7 +3994,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d5119a55e97c14f83636df3c32bd50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TrackNodes: {fileID: 1904922872}
   waypoints: []
   agent: {fileID: 412091643}
   rb: {fileID: 412091645}
@@ -13854,6 +13865,26 @@ PrefabInstance:
       objectReference: {fileID: 1225794779}
     - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
         type: 3}
+      propertyPath: target1
+      value: 
+      objectReference: {fileID: 1505316764}
+    - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
+        type: 3}
+      propertyPath: target2
+      value: 
+      objectReference: {fileID: 412091639}
+    - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
+        type: 3}
+      propertyPath: target3
+      value: 
+      objectReference: {fileID: 364417948}
+    - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
+        type: 3}
+      propertyPath: target4
+      value: 
+      objectReference: {fileID: 1531036521013319048}
+    - target: {fileID: 815624978539875694, guid: 4a95f996e295af443ba0236d6acf6991,
+        type: 3}
       propertyPath: Animator
       value: 
       objectReference: {fileID: 437555767}
@@ -13865,7 +13896,7 @@ PrefabInstance:
     - target: {fileID: 1365135235393979665, guid: 4a95f996e295af443ba0236d6acf6991,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.19
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1365135235393979665, guid: 4a95f996e295af443ba0236d6acf6991,
         type: 3}
@@ -14297,6 +14328,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2033856704}
   m_SourcePrefab: {fileID: 100100000, guid: bde4d71b410d9d741add0d5c88437ba6, type: 3}
+--- !u!4 &1505316764 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2260096498021451245, guid: bde4d71b410d9d741add0d5c88437ba6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1505316763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1510228632 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1118272885277993169, guid: 5fe38f08f9bb9c142bb0d413fa4d5975,
@@ -25390,7 +25427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d5119a55e97c14f83636df3c32bd50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TrackNodes: {fileID: 1904922872}
   waypoints:
   - {fileID: 1032410012}
   - {fileID: 2113338670}
@@ -29027,6 +29063,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46c9052a26c91dc468f820c61a17c232, type: 3}
+--- !u!4 &1531036521013319048 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4162683602688186186, guid: 46c9052a26c91dc468f820c61a17c232,
+    type: 3}
+  m_PrefabInstance: {fileID: 1531036521013319047}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
