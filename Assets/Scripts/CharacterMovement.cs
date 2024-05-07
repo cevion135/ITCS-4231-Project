@@ -7,6 +7,10 @@ public class CharacterMovement : MonoBehaviour {
 	[SerializeField] private Transform trans;
 	[SerializeField] private Rigidbody rb;
 	[SerializeField] private Transform target;
+	[SerializeField] private Transform target1;
+	[SerializeField] private Transform target2;
+	[SerializeField] private Transform target3;
+	[SerializeField] private Transform target4;
 	[SerializeField] private Animator Animator;
 	
 	
