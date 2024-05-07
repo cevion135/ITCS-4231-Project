@@ -43,6 +43,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool isBraking;
     [SerializeField] private bool isBoosting = false;
     [SerializeField] private bool isNPC = false;
+    [SerializeField] private bool canLap = true;
     [Header("Misc")]
 
     [SerializeField] private CameraController cameraClass;
@@ -50,6 +51,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float groundRayLength = .5f;
     [SerializeField] private ParticleSystem LeftExhaustBoost;
     [SerializeField] private ParticleSystem RightExhaustBoost;
+    [SerializeField] public RaceManager raceManager;
 
    public enum Axels {
     Front,
@@ -83,6 +85,7 @@ public class CarController : MonoBehaviour
         wheelRotation();
         calcLatVelocity();
         getCarSpeed();
+        
         // Debug.Log("Boost Guage Float: " + boostGauge);
         //Speed Check
         // print(rb.velocity.magnitude);
@@ -315,6 +318,7 @@ public class CarController : MonoBehaviour
     
     private void getCarSpeed(){
         currentCarSpeed = rb.velocity.magnitude;
+        // Debug.Log(rb.velocity);
     }
 
     //raycast to check if the cars wheels are on the ground.
@@ -368,6 +372,18 @@ public class CarController : MonoBehaviour
             if(collision.gameObject.tag == "Guardrail"){
                 driftTimeFloat = 0f;
             }
+        }
+    }
+    private void OnTriggerEnter(Collider collision){
+        Debug.Log(collision);
+
+        Vector3 localVelo = transform.InverseTransformDirection(rb.velocity);
+        bool movingBackwards = (localVelo.z < 0);
+
+        if(collision.CompareTag("Lap") && !isNPC && !movingBackwards){
+            // Debug.Log("Lap has been passed - current lap: " + raceManager.lap);
+            raceManager.lap += 1f;
+            raceManager.canUpdateLap = true;
         }
     }
     IEnumerator ShakeCoroutine(){

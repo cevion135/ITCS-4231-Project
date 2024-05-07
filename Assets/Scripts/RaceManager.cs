@@ -10,10 +10,17 @@ public class RaceManager : MonoBehaviour
     [SerializeField] private List<GameObject> carsList;
     [SerializeField] private Dictionary<GameObject, int> carPlacements;
     [SerializeField] private TextMeshProUGUI placementText;
+    [SerializeField] private TextMeshProUGUI lapTracker;
     [SerializeField] private bool needsUpdate;
+    [SerializeField] private bool canUpdateLaps = true;
+    [SerializeField] public bool canUpdateLap = true;
     [SerializeField] private Transform placementTextLocation;
     [SerializeField] private Slider boostGuageSlider;
     [SerializeField] private CarController playerCC;
+    // [SerializeField] public float currentLap = 0f;
+    [SerializeField] public float lap = 0f;
+    [SerializeField] private float totalLaps = 3f;
+    
     private Vector3 startPlacementPos = new Vector3(-126f, 140f, 0f);
     private Vector3 endPlacementPos = new Vector3(-140f, 140f, 0f);
 
@@ -30,8 +37,9 @@ public class RaceManager : MonoBehaviour
 
     void Start()
     {
+        // canUpdateLap = true;
+        lapTracker.text = "Lap: ";
         carPlacements = new Dictionary<GameObject, int>();
-        // needsUpdate = true;
         populateCarList();
         startCountdown();
     }
@@ -49,6 +57,20 @@ public class RaceManager : MonoBehaviour
         // }
         calculatePlacement();
         updateBoostGuage();
+        if(canUpdateLap){
+            updateLaps();
+        }
+    }
+    private void updateLaps() {
+        
+        if(lap > 0f){
+            canUpdateLap = false;
+            lapTracker.text = "Lap: [" + lap + "/" + totalLaps + "]";
+            StartCoroutine(lapCooldown());
+        }
+        if(lap == 4f){
+            //end the game or some shit.
+        }
     }
     // private void UpdateCarPositions(){
     //     // Calculate and sort car distances to track nodes
@@ -85,6 +107,11 @@ public class RaceManager : MonoBehaviour
     //         Debug.Log(car.Key.name + " is in position " + car.Value);
     //     }
     // }
+    private IEnumerator lapCooldown(){
+        yield return new WaitForSeconds(5f);
+        canUpdateLap = true;
+
+    }
     private IEnumerator placementCooldown(){
         yield return new WaitForSeconds(2f);
         SetUpdate();
